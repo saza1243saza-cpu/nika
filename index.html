@@ -12,13 +12,17 @@
     --glass: rgba(255,255,255,0.04);
     --text: #e2e8f0;
   }
+
   html,body{height:100%;margin:0;background:radial-gradient(circle at top,#0f1724,#020617);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
   @media (prefers-reduced-motion: no-preference){
-    body::before{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(120deg, rgba(59,130,246,0.02), rgba(96,165,250,0.02));animation:bgShift 18s linear infinite}
+    body::before{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradient(120deg, rgba(59,130,246,0.02), rgba(96,165,250,0.02));animation:bgShift 18s linear infinite}
     @keyframes bgShift{0%{transform:translateY(0)}50%{transform:translateY(6%)}100%{transform:translateY(0)}}
   }
+
+  .bg-effects{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .card{position:relative;z-index:2;width:100%;max-width:480px;height:92vh;background:var(--card-bg);backdrop-filter:blur(18px);border-radius:22px;overflow:hidden;box-shadow:0 10px 40px rgba(2,6,23,0.7);display:flex;flex-direction:column;margin:0 auto}
+
   .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}
-  .card{width:100%;max-width:480px;height:92vh;background:var(--card-bg);backdrop-filter:blur(18px);border-radius:22px;overflow:hidden;position:relative;box-shadow:0 10px 40px rgba(2,6,23,0.7);display:flex;flex-direction:column}
   .header{padding:12px 14px 6px 14px;display:flex;flex-direction:column;gap:8px}
   .timer{font-size:16px;text-align:center;opacity:0.95;transition:transform .22s ease,opacity .22s ease}
   .timer.animate{transform:scale(1.06);opacity:1}
@@ -50,108 +54,125 @@
   .icon-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:10px;color:var(--text);cursor:pointer}
   .small{font-size:13px;padding:8px 10px}
   @media (max-width:420px){.photo-wrap{height:44%}.msg{font-size:16px}}
+
+  /* floating element base */
+  .float-el{position:fixed;z-index:0;pointer-events:none;font-size:20px;opacity:0.85;will-change:transform,opacity}
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(0.9); opacity:0; }
+    10% { opacity:1; }
+    100% { transform: translateY(-120vh) scale(1.05); opacity:0; }
+  }
+
+  /* reduced motion respect */
+  @media (prefers-reduced-motion: reduce) {
+    .float-el{display:none}
+    body::before{animation:none}
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="card" role="application" aria-label="История для Ники">
-    <div class="header">
-      <div id="timer" class="timer" aria-live="polite">до встречи: —</div>
-      <div class="progress" id="progress" aria-hidden="true"></div>
-    </div>
+  <!-- background effects layer (behind card) -->
+  <div class="bg-effects" id="bgEffects" aria-hidden="true"></div>
 
-    <div class="stage" id="stage" tabindex="0">
-      <!-- Story 1 -->
-      <section class="story active" data-index="0" aria-hidden="false">
-        <div class="photo-wrap"><img src="photo1.jpg" class="photo" alt="Фото 1" loading="lazy"></div>
-        <div class="chat" aria-live="polite">
-          <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
-          <div class="msg me" data-text="я даже не думал что можно так познакомиться"></div>
-          <div class="msg me" data-text="люблю, как ты улыбаешься каждый раз"></div>
+  <div class="wrap">
+    <div class="card" role="application" aria-label="История для Ники">
+      <div class="header">
+        <div id="timer" class="timer" aria-live="polite">до встречи: —</div>
+        <div class="progress" id="progress" aria-hidden="true"></div>
+      </div>
+
+      <div class="stage" id="stage" tabindex="0">
+        <!-- Story 1 -->
+        <section class="story active" data-index="0" aria-hidden="false">
+          <div class="photo-wrap"><img src="photo1.jpg" class="photo" alt="Фото 1" loading="lazy"></div>
+          <div class="chat" aria-live="polite">
+            <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
+            <div class="msg me" data-text="я даже не думал что можно так познакомиться"></div>
+            <div class="msg me" data-text="люблю, как ты улыбаешься каждый раз"></div>
+          </div>
+        </section>
+
+        <!-- Story 2 -->
+        <section class="story" data-index="1" aria-hidden="true">
+          <div class="photo-wrap"><img src="photo2.jpg" class="photo" alt="Фото 2" loading="lazy"></div>
+          <div class="chat">
+            <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
+            <div class="msg me" data-text="и что человек может реально так зацепить"></div>
+            <div class="msg me" data-text="ты делаешь всё ярче вокруг"></div>
+          </div>
+        </section>
+
+        <!-- Story 3 -->
+        <section class="story" data-index="2" aria-hidden="true">
+          <div class="photo-wrap"><img src="photo3.jpg" class="photo" alt="Фото 3" loading="lazy"></div>
+          <div class="chat">
+            <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
+            <div class="msg me" data-text="честно я не верил в любовь через интернет"></div>
+            <div class="msg me" data-text="но с тобой всё по-другому — ты моё тепло"></div>
+          </div>
+        </section>
+
+        <!-- Story 4 -->
+        <section class="story" data-index="3" aria-hidden="true">
+          <div class="photo-wrap"><img src="photo4.jpg" class="photo" alt="Фото 4" loading="lazy"></div>
+          <div class="chat">
+            <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
+            <div class="msg me" data-text="ты реально делаешь мой день лучше"></div>
+            <div class="msg me" data-text="каждый момент с тобой — подарок"></div>
+          </div>
+        </section>
+
+        <!-- Story 5 -->
+        <section class="story" data-index="4" aria-hidden="true">
+          <div class="photo-wrap"><img src="photo5.jpg" class="photo" alt="Фото 5" loading="lazy"></div>
+          <div class="chat">
+            <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
+            <div class="msg me" data-text="ты возле бостона я возле филы"></div>
+            <div class="msg me" data-text="и всё равно мы нашли друг друга — это чудо"></div>
+          </div>
+        </section>
+
+        <!-- Story 6 -->
+        <section class="story" data-index="5" aria-hidden="true">
+          <div class="photo-wrap"><img src="photo6.jpg" class="photo" alt="Фото 6" loading="lazy"></div>
+          <div class="chat">
+            <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
+            <div class="msg me" data-text="через 14 дней мы увидимся"></div>
+            <div class="msg me" data-text="и я правда этого жду — считаю дни"></div>
+          </div>
+        </section>
+
+        <!-- Story 7 -->
+        <section class="story" data-index="6" aria-hidden="true">
+          <div class="photo-wrap"><img src="photo7.jpg" class="photo" alt="Фото 7" loading="lazy"></div>
+          <div class="chat">
+            <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
+            <div class="msg me" data-text="мне очень нравится то что между нами есть"></div>
+            <div class="msg me" data-text="ты моя самая дорогая и любимая девочка"></div>
+          </div>
+          <div style="margin-top:auto;display:flex;justify-content:center">
+            <button class="btn" onclick="goFinal()">жду встречи 💙</button>
+          </div>
+        </section>
+
+        <!-- Final -->
+        <section class="story" id="final" data-index="7" aria-hidden="true">
+          <div style="margin:auto;font-size:28px;text-align:center">люблю тебя 💙</div>
+        </section>
+
+        <div class="swipe-zone" id="swipeZone" aria-hidden="true"></div>
+      </div>
+
+      <div class="footer">
+        <div class="hint">Свайп влево/вправо или используй кнопки</div>
+        <div class="controls">
+          <button class="icon-btn" id="shareBtn" title="Поделиться">🔗</button>
+          <button class="btn small" id="prevBtn" aria-label="Назад">◀</button>
+          <button class="btn small" id="nextBtn" aria-label="Вперёд">▶</button>
         </div>
-      </section>
-
-      <!-- Story 2 -->
-      <section class="story" data-index="1" aria-hidden="true">
-        <div class="photo-wrap"><img src="photo2.jpg" class="photo" alt="Фото 2" loading="lazy"></div>
-        <div class="chat">
-          <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
-          <div class="msg me" data-text="и что человек может реально так зацепить"></div>
-          <div class="msg me" data-text="ты делаешь всё ярче вокруг"></div>
-        </div>
-      </section>
-
-      <!-- Story 3 -->
-      <section class="story" data-index="2" aria-hidden="true">
-        <div class="photo-wrap"><img src="photo3.jpg" class="photo" alt="Фото 3" loading="lazy"></div>
-        <div class="chat">
-          <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
-          <div class="msg me" data-text="честно я не верил в любовь через интернет"></div>
-          <div class="msg me" data-text="но с тобой всё по-другому — ты моё тепло"></div>
-        </div>
-      </section>
-
-      <!-- Story 4 -->
-      <section class="story" data-index="3" aria-hidden="true">
-        <div class="photo-wrap"><img src="photo4.jpg" class="photo" alt="Фото 4" loading="lazy"></div>
-        <div class="chat">
-          <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
-          <div class="msg me" data-text="ты реально делаешь мой день лучше"></div>
-          <div class="msg me" data-text="каждый момент с тобой — подарок"></div>
-        </div>
-      </section>
-
-      <!-- Story 5 -->
-      <section class="story" data-index="4" aria-hidden="true">
-        <div class="photo-wrap"><img src="photo5.jpg" class="photo" alt="Фото 5" loading="lazy"></div>
-        <div class="chat">
-          <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
-          <div class="msg me" data-text="ты возле бостона я возле филы"></div>
-          <div class="msg me" data-text="и всё равно мы нашли друг друга — это чудо"></div>
-        </div>
-      </section>
-
-      <!-- Story 6 -->
-      <section class="story" data-index="5" aria-hidden="true">
-        <div class="photo-wrap"><img src="photo6.jpg" class="photo" alt="Фото 6" loading="lazy"></div>
-        <div class="chat">
-          <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
-          <div class="msg me" data-text="через 14 дней мы увидимся"></div>
-          <div class="msg me" data-text="и я правда этого жду — считаю дни"></div>
-        </div>
-      </section>
-
-      <!-- Story 7 -->
-      <section class="story" data-index="6" aria-hidden="true">
-        <div class="photo-wrap"><img src="photo7.jpg" class="photo" alt="Фото 7" loading="lazy"></div>
-        <div class="chat">
-          <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
-          <div class="msg me" data-text="мне очень нравится то что между нами есть"></div>
-          <div class="msg me" data-text="люблю тебя — ты моё самое дорогое"></div>
-        </div>
-        <div style="margin-top:auto;display:flex;justify-content:center">
-          <button class="btn" onclick="goFinal()">жду встречи 💙</button>
-        </div>
-      </section>
-
-      <!-- Final -->
-      <section class="story" id="final" data-index="7" aria-hidden="true">
-        <div style="margin:auto;font-size:28px;text-align:center">люблю тебя 💙</div>
-      </section>
-
-      <div class="swipe-zone" id="swipeZone" aria-hidden="true"></div>
-    </div>
-
-    <div class="footer">
-      <div class="hint">Свайп влево/вправо или используй кнопки</div>
-      <div class="controls">
-        <button class="icon-btn" id="shareBtn" title="Поделиться">🔗</button>
-        <button class="btn small" id="prevBtn" aria-label="Назад">◀</button>
-        <button class="btn small" id="nextBtn" aria-label="Вперёд">▶</button>
       </div>
     </div>
   </div>
-</div>
 
 <script>
 /* CONFIG */
@@ -178,7 +199,7 @@ function buildProgress(){
 }
 buildProgress();
 
-/* Preload images (light) */
+/* Preload images */
 function preloadImages(){
   document.querySelectorAll(".photo").forEach(img=>{
     const src = img.getAttribute("src");
@@ -300,6 +321,62 @@ setActive(0);
 const stage = document.getElementById("stage");
 stage.focus();
 document.addEventListener("visibilitychange", ()=>{ if(document.hidden) cancelAutoAdvance(); else updateTimer(); });
+
+/* -------------------------
+   Background floating hearts & bears
+   ------------------------- */
+(function floatingEffects(){
+  const container = document.getElementById('bgEffects');
+  if(!container) return;
+  const symbols = ['❤','🧸']; // heart and teddy
+  const maxPerBatch = 6;
+  const intervalMs = 700; // how often to spawn
+  const lifetime = 9000; // ms
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(prefersReduced) return;
+
+  function spawn(){
+    const count = 2 + Math.floor(Math.random() * (maxPerBatch-1));
+    for(let i=0;i<count;i++){
+      const el = document.createElement('div');
+      el.className = 'float-el';
+      el.style.left = (Math.random()*100) + 'vw';
+      // keep them mostly outside the card area by nudging away from center
+      // card centered; push elements toward edges by biasing x if near center
+      const x = parseFloat(el.style.left);
+      if(x > 30 && x < 70){
+        // nudge left or right randomly
+        el.style.left = (x + (Math.random() > 0.5 ? -25 : 25)) + 'vw';
+      }
+      el.style.top = (80 + Math.random()*20) + 'vh'; // start below visible card area
+      const sym = symbols[Math.floor(Math.random()*symbols.length)];
+      el.textContent = sym;
+      const size = 14 + Math.floor(Math.random()*26); // 14..40px
+      el.style.fontSize = size + 'px';
+      el.style.opacity = (0.5 + Math.random()*0.5).toFixed(2);
+      const dur = (8 + Math.random()*8).toFixed(2); // 8..16s
+      el.style.animation = `floatUp ${dur}s linear forwards`;
+      // slight horizontal drift via transform
+      const drift = (Math.random()*60 - 30).toFixed(2);
+      el.style.transform = `translateX(${drift}px)`;
+      container.appendChild(el);
+      // remove after lifetime
+      setTimeout(()=>{ el.remove(); }, Math.min(lifetime, dur*1000 + 500));
+    }
+  }
+
+  // spawn a few immediately for nicer initial look
+  for(let i=0;i<3;i++) setTimeout(spawn, i*200);
+
+  // then spawn periodically, but stop if too many elements
+  const timer = setInterval(()=>{
+    // limit total elements to avoid overload
+    if(container.children.length < 40) spawn();
+  }, intervalMs);
+
+  // cleanup on unload
+  window.addEventListener('beforeunload', ()=> clearInterval(timer));
+})();
 </script>
 </body>
 </html>
