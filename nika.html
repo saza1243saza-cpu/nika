@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Для Ники 💙</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #1e293b, #020617);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  color: #e2e8f0;
+}
+
+/* КАРТОЧКА */
+.card {
+  width: 95%;
+  max-width: 420px;
+  height: 90vh;
+  background: rgba(15,23,42,0.7);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 40px rgba(0,0,0,0.7);
+}
+
+/* СЛАЙДЫ */
+.story {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.active {
+  display: flex;
+  animation: blurIn 0.6s ease;
+}
+
+@keyframes blurIn {
+  from {filter: blur(20px); opacity:0;}
+  to {filter: blur(0); opacity:1;}
+}
+
+/* ТАЙМЕР */
+.timer {
+  font-size: 18px;
+  text-align: center;
+  opacity: 0.8;
+  margin-bottom: 8px;
+}
+
+/* ФОТО */
+.photo {
+  width: 100%;
+  height: 45%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+/* ЧАТ */
+.chat {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 18px;
+  line-height: 1.5;
+  opacity: 0;
+}
+
+.me {
+  background: #3b82f6;
+  align-self: flex-end;
+  color: white;
+}
+
+.her {
+  background: rgba(255,255,255,0.1);
+  align-self: flex-start;
+}
+
+/* КНОПКА */
+.btn {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  border: none;
+  color: white;
+  font-size: 18px;
+}
+
+/* ТАП */
+.tap {
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.5;
+}
+
+/* ЧАСТИЦЫ */
+.particle {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: #60a5fa;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: float 6s linear infinite;
+}
+
+@keyframes float {
+  0% {transform: translateY(0); opacity:0;}
+  50% {opacity:1;}
+  100% {transform: translateY(-800px); opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<!-- 1 -->
+<div class="story active">
+  <div class="timer" id="timer"></div>
+  <img src="photo1.jpg" class="photo">
+  <div class="chat">
+    <div class="msg me" data="я даже не думал что можно так познакомиться"></div>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="story">
+  <div class="timer"></div>
+  <img src="photo2.jpg" class="photo">
+  <div class="chat">
+    <div class="msg me" data="и что человек может реально так зацепить"></div>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="story">
+  <div class="timer"></div>
+  <img src="photo3.jpg" class="photo">
+  <div class="chat">
+    <div class="msg me" data="честно я не верил в любовь через интернет"></div>
+    <div class="msg me" data="но с тобой всё по другому"></div>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="story">
+  <div class="timer"></div>
+  <img src="photo4.jpg" class="photo">
+  <div class="chat">
+    <div class="msg me" data="ты реально делаешь мой день лучше"></div>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="story">
+  <div class="timer"></div>
+  <img src="photo5.jpg" class="photo">
+  <div class="chat">
+    <div class="msg me" data="ты возле бостона я возле филы"></div>
+    <div class="msg me" data="и всё равно мы нашли друг друга"></div>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="story">
+  <div class="timer"></div>
+  <img src="photo6.jpg" class="photo">
+  <div class="chat">
+    <div class="msg me" data="через 14 дней мы увидимся"></div>
+    <div class="msg me" data="и я правда этого жду"></div>
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="story">
+  <div class="timer"></div>
+  <img src="photo7.jpg" class="photo">
+  <div class="chat">
+    <div class="msg me" data="мне очень нравится то что между нами есть"></div>
+  </div>
+  <button class="btn" onclick="final()">жду встречи 💙</button>
+</div>
+
+<!-- ФИНАЛ -->
+<div class="story" id="final">
+  <div style="margin:auto; font-size:28px;">люблю тебя 💙</div>
+</div>
+
+<div class="tap">нажми →</div>
+
+</div>
+
+<script>
+let current = 0;
+const stories = document.querySelectorAll(".story");
+
+/* ПЕЧАТАНИЕ */
+function showMessages(story) {
+  const msgs = story.querySelectorAll(".msg");
+  let i = 0;
+
+  function next() {
+    if (i >= msgs.length) return;
+    const el = msgs[i];
+    const text = el.getAttribute("data");
+    let j = 0;
+
+    const interval = setInterval(() => {
+      el.style.opacity = 1;
+      el.innerHTML += text[j];
+      j++;
+      if (j >= text.length) {
+        clearInterval(interval);
+        i++;
+        setTimeout(next, 300);
+      }
+    }, 25);
+  }
+
+  next();
+}
+
+/* СЛАЙДЫ */
+function show(index) {
+  stories[current].classList.remove("active");
+  current = index;
+  stories[current].classList.add("active");
+  showMessages(stories[current]);
+
+  if (navigator.vibrate) navigator.vibrate(30);
+}
+
+document.body.addEventListener("click", () => {
+  if (current < stories.length - 1) show(current + 1);
+});
+
+/* ФИНАЛ */
+function final() {
+  show(stories.length - 1);
+}
+
+/* ТАЙМЕР */
+const future = new Date().getTime() + (14*24*60*60*1000);
+function updateTimer() {
+  const now = new Date().getTime();
+  const diff = future - now;
+
+  const d = Math.floor(diff/(1000*60*60*24));
+  const h = Math.floor((diff/(1000*60*60))%24);
+  const m = Math.floor((diff/(1000*60))%60);
+
+  document.querySelectorAll(".timer").forEach(el=>{
+    el.innerText = "до встречи: " + d + "д " + h + "ч " + m + "м";
+  });
+}
+setInterval(updateTimer,1000);
+
+/* ЧАСТИЦЫ */
+function particle() {
+  const p = document.createElement("div");
+  p.className = "particle";
+  p.style.left = Math.random()*100+"vw";
+  p.style.animationDuration = (4+Math.random()*3)+"s";
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),6000);
+}
+setInterval(particle,200);
+
+/* СТАРТ */
+showMessages(stories[0]);
+</script>
+
+</body>
+</html>
