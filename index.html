@@ -6,83 +6,56 @@
 <title>Для Ники 💙</title>
 <style>
   :root{
-    --card-bg: rgba(15,23,42,0.75);
+    --card-bg: rgba(15,23,42,0.78);
     --accent-1: #3b82f6;
     --accent-2: #60a5fa;
     --glass: rgba(255,255,255,0.04);
     --text: #e2e8f0;
   }
-
-  /* Page */
   html,body{height:100%;margin:0;background:radial-gradient(circle at top,#0f1724,#020617);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  @media (prefers-reduced-motion: no-preference){
+    body::before{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(120deg, rgba(59,130,246,0.02), rgba(96,165,250,0.02));animation:bgShift 18s linear infinite}
+    @keyframes bgShift{0%{transform:translateY(0)}50%{transform:translateY(6%)}100%{transform:translateY(0)}}
+  }
   .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}
-
-  /* Card */
-  .card{
-    width:100%;max-width:460px;height:92vh;background:var(--card-bg);backdrop-filter:blur(18px);border-radius:22px;overflow:hidden;position:relative;box-shadow:0 10px 40px rgba(2,6,23,0.7);
-    display:flex;flex-direction:column;
-  }
-
-  /* Header area (timer + progress) */
-  .header{
-    padding:14px 16px 6px 16px;display:flex;flex-direction:column;gap:8px;
-  }
-  .timer{
-    font-size:16px;text-align:center;opacity:0.95;transition:transform .22s ease,opacity .22s ease;
-  }
+  .card{width:100%;max-width:480px;height:92vh;background:var(--card-bg);backdrop-filter:blur(18px);border-radius:22px;overflow:hidden;position:relative;box-shadow:0 10px 40px rgba(2,6,23,0.7);display:flex;flex-direction:column}
+  .header{padding:12px 14px 6px 14px;display:flex;flex-direction:column;gap:8px}
+  .timer{font-size:16px;text-align:center;opacity:0.95;transition:transform .22s ease,opacity .22s ease}
   .timer.animate{transform:scale(1.06);opacity:1}
-  .progress{
-    display:flex;gap:6px;justify-content:center;align-items:center;
-  }
+  .progress{display:flex;gap:6px;justify-content:center;align-items:center}
   .dot{width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,0.12);transition:all .25s ease}
   .dot.active{width:28px;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));box-shadow:0 6px 18px rgba(59,130,246,0.18)}
-
-  /* Story area */
   .stage{flex:1;position:relative;display:flex;align-items:flex-start;justify-content:center;padding:12px;box-sizing:border-box}
   .story{position:absolute;inset:0;display:none;flex-direction:column;gap:12px;padding:12px;box-sizing:border-box}
   .story.active{display:flex;animation:cardIn .45s cubic-bezier(.2,.9,.2,1)}
   @keyframes cardIn{from{opacity:0;transform:translateY(8px) scale(.995)}to{opacity:1;transform:none}}
-
-  /* Photo */
   .photo-wrap{width:100%;height:46%;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.08))}
-  .photo{
-    width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.03);opacity:0;transition:transform .9s cubic-bezier(.2,.9,.2,1),opacity .6s ease;
-  }
+  .photo{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.03);opacity:0;transition:transform .9s cubic-bezier(.2,.9,.2,1),opacity .6s ease}
   .photo.show{transform:scale(1);opacity:1}
-
-  /* Chat */
   .chat{display:flex;flex-direction:column;gap:10px;padding:6px 2px;overflow:hidden}
-  .msg{max-width:82%;padding:10px 14px;border-radius:14px;font-size:17px;line-height:1.45;opacity:0;transform:translateY(6px);transition:opacity .28s ease,transform .28s ease}
+  .msg{max-width:82%;padding:10px 14px;border-radius:14px;font-size:17px;line-height:1.45;opacity:0;transform:translateY(6px);transition:opacity .28s ease,transform .28s ease;word-break:break-word}
   .msg.show{opacity:1;transform:none}
   .me{background:linear-gradient(180deg,var(--accent-1),var(--accent-2));color:white;align-self:flex-end;box-shadow:0 6px 18px rgba(59,130,246,0.12)}
   .her{background:var(--glass);color:var(--text);align-self:flex-start}
-
-  /* Typing indicator */
   .typing{display:inline-flex;gap:6px;align-items:center;padding:8px 12px;border-radius:12px;background:rgba(255,255,255,0.06);color:var(--text);font-size:15px}
   .dot-anim{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.7);opacity:.6;animation:blink 1s infinite}
   .dot-anim:nth-child(2){animation-delay:.15s}
   .dot-anim:nth-child(3){animation-delay:.3s}
   @keyframes blink{0%{transform:translateY(0);opacity:.25}50%{transform:translateY(-4px);opacity:1}100%{transform:translateY(0);opacity:.25}}
-
-  /* Footer / controls */
-  .footer{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-  .btn{padding:10px 14px;border-radius:12px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));border:none;color:white;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 8px 20px rgba(59,130,246,0.12)}
+  .footer{padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .btn{padding:10px 12px;border-radius:12px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));border:none;color:white;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 8px 20px rgba(59,130,246,0.12)}
   .hint{font-size:13px;opacity:.6;text-align:center;flex:1}
-
-  /* Swipe overlay (for better touch target) */
   .swipe-zone{position:absolute;inset:0;z-index:30}
-
-  /* small screens */
-  @media (max-width:420px){
-    .photo-wrap{height:44%}
-    .msg{font-size:16px}
-  }
+  .controls{display:flex;gap:8px;align-items:center}
+  .icon-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:10px;color:var(--text);cursor:pointer}
+  .small{font-size:13px;padding:8px 10px}
+  @media (max-width:420px){.photo-wrap{height:44%}.msg{font-size:16px}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="card" role="application" aria-label="История для Ники">
-    <div class="header" aria-hidden="false">
+    <div class="header">
       <div id="timer" class="timer" aria-live="polite">до встречи: —</div>
       <div class="progress" id="progress" aria-hidden="true"></div>
     </div>
@@ -90,67 +63,71 @@
     <div class="stage" id="stage" tabindex="0">
       <!-- Story 1 -->
       <section class="story active" data-index="0" aria-hidden="false">
-        <div class="photo-wrap"><img src="photo1.jpg" class="photo" alt="Фото 1"></div>
+        <div class="photo-wrap"><img src="photo1.jpg" class="photo" alt="Фото 1" loading="lazy"></div>
         <div class="chat" aria-live="polite">
           <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
           <div class="msg me" data-text="я даже не думал что можно так познакомиться"></div>
+          <div class="msg me" data-text="люблю, как ты улыбаешься каждый раз"></div>
         </div>
       </section>
 
       <!-- Story 2 -->
       <section class="story" data-index="1" aria-hidden="true">
-        <div class="photo-wrap"><img src="photo2.jpg" class="photo" alt="Фото 2"></div>
+        <div class="photo-wrap"><img src="photo2.jpg" class="photo" alt="Фото 2" loading="lazy"></div>
         <div class="chat">
           <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
           <div class="msg me" data-text="и что человек может реально так зацепить"></div>
+          <div class="msg me" data-text="ты делаешь всё ярче вокруг"></div>
         </div>
       </section>
 
       <!-- Story 3 -->
       <section class="story" data-index="2" aria-hidden="true">
-        <div class="photo-wrap"><img src="photo3.jpg" class="photo" alt="Фото 3"></div>
+        <div class="photo-wrap"><img src="photo3.jpg" class="photo" alt="Фото 3" loading="lazy"></div>
         <div class="chat">
           <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
           <div class="msg me" data-text="честно я не верил в любовь через интернет"></div>
-          <div class="msg me" data-text="но с тобой всё по другому"></div>
+          <div class="msg me" data-text="но с тобой всё по-другому — ты моё тепло"></div>
         </div>
       </section>
 
       <!-- Story 4 -->
       <section class="story" data-index="3" aria-hidden="true">
-        <div class="photo-wrap"><img src="photo4.jpg" class="photo" alt="Фото 4"></div>
+        <div class="photo-wrap"><img src="photo4.jpg" class="photo" alt="Фото 4" loading="lazy"></div>
         <div class="chat">
           <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
           <div class="msg me" data-text="ты реально делаешь мой день лучше"></div>
+          <div class="msg me" data-text="каждый момент с тобой — подарок"></div>
         </div>
       </section>
 
       <!-- Story 5 -->
       <section class="story" data-index="4" aria-hidden="true">
-        <div class="photo-wrap"><img src="photo5.jpg" class="photo" alt="Фото 5"></div>
+        <div class="photo-wrap"><img src="photo5.jpg" class="photo" alt="Фото 5" loading="lazy"></div>
         <div class="chat">
           <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
           <div class="msg me" data-text="ты возле бостона я возле филы"></div>
-          <div class="msg me" data-text="и всё равно мы нашли друг друга"></div>
+          <div class="msg me" data-text="и всё равно мы нашли друг друга — это чудо"></div>
         </div>
       </section>
 
       <!-- Story 6 -->
       <section class="story" data-index="5" aria-hidden="true">
-        <div class="photo-wrap"><img src="photo6.jpg" class="photo" alt="Фото 6"></div>
+        <div class="photo-wrap"><img src="photo6.jpg" class="photo" alt="Фото 6" loading="lazy"></div>
         <div class="chat">
           <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
           <div class="msg me" data-text="через 14 дней мы увидимся"></div>
-          <div class="msg me" data-text="и я правда этого жду"></div>
+          <div class="msg me" data-text="и я правда этого жду — считаю дни"></div>
         </div>
       </section>
 
       <!-- Story 7 -->
       <section class="story" data-index="6" aria-hidden="true">
-        <div class="photo-wrap"><img src="photo7.jpg" class="photo" alt="Фото 7"></div>
+        <div class="photo-wrap"><img src="photo7.jpg" class="photo" alt="Фото 7" loading="lazy"></div>
         <div class="chat">
           <div class="typing" data-typing><span class="dot-anim"></span><span class="dot-anim"></span><span class="dot-anim"></span></div>
           <div class="msg me" data-text="мне очень нравится то что между нами есть"></div>
+          <div class="msg me" data-text="люблю тебя — ты моё самое дорогое"></div>
         </div>
         <div style="margin-top:auto;display:flex;justify-content:center">
           <button class="btn" onclick="goFinal()">жду встречи 💙</button>
@@ -162,37 +139,35 @@
         <div style="margin:auto;font-size:28px;text-align:center">люблю тебя 💙</div>
       </section>
 
-      <!-- Swipe overlay -->
       <div class="swipe-zone" id="swipeZone" aria-hidden="true"></div>
     </div>
 
     <div class="footer">
-      <div class="hint">Свайп влево/вправо или нажми</div>
-      <button class="btn" id="prevBtn" aria-label="Назад">◀</button>
-      <button class="btn" id="nextBtn" aria-label="Вперёд">▶</button>
+      <div class="hint">Свайп влево/вправо или используй кнопки</div>
+      <div class="controls">
+        <button class="icon-btn" id="shareBtn" title="Поделиться">🔗</button>
+        <button class="btn small" id="prevBtn" aria-label="Назад">◀</button>
+        <button class="btn small" id="nextBtn" aria-label="Вперёд">▶</button>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-/* -------------------------
-   Конфигурация и данные
-   ------------------------- */
-const TIMEZONE = "America/New_York"; // Бостон
-const MEET_ISO = "2026-04-18T09:10:00"; // локальное время Бостона
+/* CONFIG */
+const TIMEZONE = "America/New_York";
+const MEET_ISO = "2026-04-18T09:10:00";
 const future = new Date(new Date(MEET_ISO).toLocaleString("en-US", { timeZone: TIMEZONE })).getTime();
 
 const stories = Array.from(document.querySelectorAll(".story"));
 const progress = document.getElementById("progress");
 const timerEls = document.querySelectorAll(".timer");
 let current = 0;
-let typingSpeed = 28; // ms per char
-let pauseBetweenMessages = 300; // ms
+let typingSpeed = 28;
+let pauseBetweenMessages = 300;
 let autoAdvanceTimeout = null;
 
-/* -------------------------
-   UI: прогресс (точки)
-   ------------------------- */
+/* Build progress */
 function buildProgress(){
   progress.innerHTML = "";
   for(let i=0;i<stories.length;i++){
@@ -203,38 +178,26 @@ function buildProgress(){
 }
 buildProgress();
 
-/* -------------------------
-   Предзагрузка изображений
-   ------------------------- */
+/* Preload images (light) */
 function preloadImages(){
-  const imgs = document.querySelectorAll(".photo");
-  imgs.forEach(img=>{
+  document.querySelectorAll(".photo").forEach(img=>{
     const src = img.getAttribute("src");
     const i = new Image();
     i.src = src;
-    i.onload = ()=>{/* noop */}
   });
 }
 preloadImages();
 
-/* -------------------------
-   Таймер (реальное время, анимация)
-   ------------------------- */
+/* Timer */
 function updateTimer(){
   const now = Date.now();
   let diff = future - now;
-  // Если уже прошло — показываем прошедшее время
   let prefix = "до встречи: ";
-  if(diff < 0){
-    diff = Math.abs(diff);
-    prefix = "встретились: ";
-  }
-
+  if(diff < 0){ diff = Math.abs(diff); prefix = "встретились: "; }
   const d = Math.floor(diff / (1000*60*60*24));
   const h = Math.floor((diff / (1000*60*60)) % 24);
   const m = Math.floor((diff / (1000*60)) % 60);
   const s = Math.floor((diff / 1000) % 60);
-
   timerEls.forEach(el=>{
     el.textContent = `${prefix}${d}д ${h}ч ${m}м ${s}с`;
     el.classList.add("animate");
@@ -244,30 +207,20 @@ function updateTimer(){
 updateTimer();
 setInterval(updateTimer,1000);
 
-/* -------------------------
-   Показ сообщений с эффектом "пишет..."
-   ------------------------- */
+/* Show messages with typing indicator */
 function showMessagesFor(storyEl){
   const typingEl = storyEl.querySelector("[data-typing]");
   const msgs = Array.from(storyEl.querySelectorAll(".msg"));
-  // Скрываем все сообщения сначала
   msgs.forEach(m=>{ m.textContent=""; m.classList.remove("show"); });
-
   let i = 0;
   function nextMsg(){
-    if(i >= msgs.length){
-      if (current < stories.length - 1) scheduleAutoAdvance();
-      return;
-    }
+    if(i >= msgs.length){ if (current < stories.length - 1) scheduleAutoAdvance(); return; }
     const msgEl = msgs[i];
     const text = msgEl.getAttribute("data-text") || "";
-    // Показываем индикатор "пишет..."
     if(typingEl) typingEl.style.display = "inline-flex";
-    // небольшой рандом для реалистичности
-    const typingDelay = Math.max(500, Math.min(2200, text.length * (typingSpeed/2)));
+    const typingDelay = Math.max(450, Math.min(2000, text.length * (typingSpeed/2)));
     setTimeout(()=>{
       if(typingEl) typingEl.style.display = "none";
-      // печать символов
       let j = 0;
       const writer = setInterval(()=>{
         msgEl.textContent += text[j];
@@ -278,132 +231,75 @@ function showMessagesFor(storyEl){
           i++;
           setTimeout(nextMsg, pauseBetweenMessages);
         }
-      }, typingSpeed);
+      }, typingSpeed + Math.floor(Math.random()*8));
     }, typingDelay);
   }
   nextMsg();
 }
 
-/* -------------------------
-   Показ сторис
-   ------------------------- */
+/* Set active story */
 function setActive(index){
   if(index < 0) index = 0;
   if(index >= stories.length) index = stories.length - 1;
-  // убрать active у предыдущего
-  stories.forEach(s=>{
-    s.classList.remove("active");
-    s.setAttribute("aria-hidden","true");
-  });
+  stories.forEach(s=>{ s.classList.remove("active"); s.setAttribute("aria-hidden","true"); });
   const el = stories[index];
   el.classList.add("active");
   el.setAttribute("aria-hidden","false");
   current = index;
   updateProgress();
-  // фото анимация
   const photo = el.querySelector(".photo");
   if(photo){
-    // force reflow to restart transition
     photo.classList.remove("show");
     void photo.offsetWidth;
     photo.classList.add("show");
   }
-  // показать сообщения
-  // скрыть все typing индикаторы initially
   el.querySelectorAll("[data-typing]").forEach(t=>t.style.display="none");
-  // small delay so photo appears first
   setTimeout(()=> showMessagesFor(el), 260);
 }
 
-/* -------------------------
-   Прогресс UI
-   ------------------------- */
+/* Update progress UI */
 function updateProgress(){
   const dots = Array.from(progress.children);
   dots.forEach((d,i)=> d.classList.toggle("active", i===current));
 }
 
-/* -------------------------
-   Навигация (кнопки, клавиши, свайпы)
-   ------------------------- */
-document.getElementById("nextBtn").addEventListener("click", ()=>{
-  cancelAutoAdvance();
-  if(current < stories.length - 1) setActive(current+1);
-});
-document.getElementById("prevBtn").addEventListener("click", ()=>{
-  cancelAutoAdvance();
-  if(current > 0) setActive(current-1);
-});
-document.addEventListener("keydown", (e)=>{
-  if(e.key === "ArrowRight") { cancelAutoAdvance(); if(current < stories.length - 1) setActive(current+1); }
-  if(e.key === "ArrowLeft")  { cancelAutoAdvance(); if(current > 0) setActive(current-1); }
-});
+/* Navigation */
+document.getElementById("nextBtn").addEventListener("click", ()=>{ cancelAutoAdvance(); if(current < stories.length - 1) setActive(current+1); });
+document.getElementById("prevBtn").addEventListener("click", ()=>{ cancelAutoAdvance(); if(current > 0) setActive(current-1); });
+document.addEventListener("keydown", (e)=>{ if(e.key==="ArrowRight"){ cancelAutoAdvance(); if(current < stories.length - 1) setActive(current+1); } if(e.key==="ArrowLeft"){ cancelAutoAdvance(); if(current > 0) setActive(current-1); } });
 
-/* Swipe handling */
+/* Swipe */
 (function attachSwipe(){
   const zone = document.getElementById("swipeZone");
   let startX = 0, startY = 0, moved = false;
-  zone.addEventListener("touchstart", (e)=>{
-    cancelAutoAdvance();
-    const t = e.touches[0];
-    startX = t.clientX; startY = t.clientY; moved = false;
-  }, {passive:true});
-  zone.addEventListener("touchmove", (e)=>{
-    moved = true;
-  }, {passive:true});
-  zone.addEventListener("touchend", (e)=>{
-    if(!moved) return;
-    const touch = e.changedTouches[0];
-    const dx = touch.clientX - startX;
-    const dy = touch.clientY - startY;
-    if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)){
-      if(dx < 0 && current < stories.length - 1) setActive(current+1);
-      if(dx > 0 && current > 0) setActive(current-1);
-    }
-  });
+  zone.addEventListener("touchstart", (e)=>{ cancelAutoAdvance(); const t = e.touches[0]; startX = t.clientX; startY = t.clientY; moved = false; }, {passive:true});
+  zone.addEventListener("touchmove", (e)=>{ moved = true; }, {passive:true});
+  zone.addEventListener("touchend", (e)=>{ if(!moved) return; const touch = e.changedTouches[0]; const dx = touch.clientX - startX; const dy = touch.clientY - startY; if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)){ if(dx < 0 && current < stories.length - 1) setActive(current+1); if(dx > 0 && current > 0) setActive(current-1); } });
 })();
 
-/* -------------------------
-   Автопереход (опционально) — через N секунд после окончания печати
-   ------------------------- */
-function scheduleAutoAdvance(){
-  cancelAutoAdvance();
-  autoAdvanceTimeout = setTimeout(()=>{
-    if(current < stories.length - 1) setActive(current+1);
-  }, 2200); // через 2.2s после последнего сообщения
-}
+/* Auto advance */
+function scheduleAutoAdvance(){ cancelAutoAdvance(); autoAdvanceTimeout = setTimeout(()=>{ if(current < stories.length - 1) setActive(current+1); }, 2200); }
 function cancelAutoAdvance(){ if(autoAdvanceTimeout){ clearTimeout(autoAdvanceTimeout); autoAdvanceTimeout = null; } }
 
-/* -------------------------
-   Финал
-   ------------------------- */
-function goFinal(){
-  cancelAutoAdvance();
-  setActive(stories.length - 1);
-}
+/* Final */
+function goFinal(){ cancelAutoAdvance(); setActive(stories.length - 1); }
 
-/* -------------------------
-   Инициализация: показать первый, подготовить прогресс
-   ------------------------- */
-setActive(0);
-
-/* -------------------------
-   Accessibility: фокус на stage для клавиш
-   ------------------------- */
-const stage = document.getElementById("stage");
-stage.addEventListener("focus", ()=>{/* noop */});
-stage.focus();
-
-/* -------------------------
-   Небольшая оптимизация: остановка анимаций при скрытии вкладки
-   ------------------------- */
-document.addEventListener("visibilitychange", ()=>{
-  if(document.hidden) cancelAutoAdvance();
-  else {
-    // при возвращении — обновим таймер и продолжим
-    updateTimer();
-  }
+/* Share / copy */
+const shareBtn = document.getElementById("shareBtn");
+shareBtn.addEventListener("click", async ()=>{
+  const url = location.href;
+  if(navigator.share){
+    try{ await navigator.share({title: document.title, text: "Для Ники 💙", url}); } catch(e){ }
+  } else if(navigator.clipboard){
+    try{ await navigator.clipboard.writeText(url); shareBtn.textContent = "✓"; setTimeout(()=>shareBtn.textContent="🔗",1200); } catch(e){ alert("Не удалось скопировать ссылку"); }
+  } else { prompt("Скопируй ссылку вручную:", url); }
 });
+
+/* Init */
+setActive(0);
+const stage = document.getElementById("stage");
+stage.focus();
+document.addEventListener("visibilitychange", ()=>{ if(document.hidden) cancelAutoAdvance(); else updateTimer(); });
 </script>
 </body>
 </html>
